@@ -40,7 +40,7 @@ public:
     bool operator >(Song const &rhs);
     bool operator ==(Song const &rhs);
 
-    ~Song();
+    //~Song();
 
 };
 

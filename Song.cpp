@@ -69,14 +69,14 @@ bool Song::operator ==(Song const &rhs)
            size == rhs.size);
 }
 
-Song::~Song()
+/*Song::~Song()
 {
    cout << "debug - in destructor for "<< artist <<endl;
-}
+}*/
 
 ostream& operator << (ostream& out, const Song &g)
 {
-   out << g.getArtist() << " (" << g.getTitle() << ") - " << g.getSize();
+   out << g.getTitle() << " - " << g.getArtist() << " - " << g.getSize() << " MB";
    return out;
 }
   

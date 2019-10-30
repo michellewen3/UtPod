@@ -1,12 +1,15 @@
 //DOCUMENT HERE
 
 #include "UtPod.h"
+#include <time.h>
+#include <stdlib.h>
 
 using namespace std;
 
 UtPod::UtPod() {
    memSize = MAX_MEMORY;
    songs = NULL;
+   srand(time(0));
 }
 
 UtPod::UtPod(int size) {
@@ -17,6 +20,7 @@ UtPod::UtPod(int size) {
       memSize = size;
    }
    songs = NULL;
+   srand(time(0));
 }
     /* FUNCTION - int addSong
      * attempts to add a new song to the UtPod
@@ -38,10 +42,6 @@ int UtPod::addSong(Song const &s) {
       newSong->s.setTitle(s.getTitle());
       newSong->s.setSize(s.getSize());
       newSong->next = NULL;
-      /*cout << newSong->s.getArtist() << endl;
-      cout << newSong->s.getTitle() << endl;
-      cout << newSong->s.getSize() << endl;
-      cout << newSong->next;*/
 
       if(songs == NULL) {  //empty list of songs
          songs = newSong;
@@ -70,41 +70,43 @@ int UtPod::addSong(Song const &s) {
          o returns 0 if successful
          o returns -1 if nothing is removed
 
-
        input parms -
 
        output parms -
     */
 
-    int UtPod::removeSong(Song const &s) {
-       SongNode *leadPtr;
-       SongNode *followPtr;
-       SongNode *tempPtr;
-       leadPtr = songs;
-       followPtr = songs;
+ int UtPod::removeSong(Song const &s) {
+    SongNode *leadPtr;
+    SongNode *followPtr;
+    SongNode *tempPtr;
+    leadPtr = songs;
+    followPtr = songs;
 
-       if (songs != NULL) {
-         while (leadPtr != NULL) {
-            if ((songs->s.getArtist() == s.getArtist()) && (songs->s.getSize() == s.getSize()) && (songs->s.getTitle() == s.getTitle())){
-               tempPtr = songs;
-               songs = songs->next;
-               delete tempPtr;
-               leadPtr = songs;
-               followPtr = songs;
-            }
-            else if ((leadPtr->s.getArtist() == s.getArtist()) && (leadPtr->s.getSize() == s.getSize()) && (leadPtr->s.getTitle() == s.getTitle())){
-                tempPtr = leadPtr;
-                leadPtr = leadPtr->next;
-                delete tempPtr;
-                followPtr->next = leadPtr;
-             }
-             else{
-                followPtr = leadPtr;
-                leadPtr = leadPtr->next;
-             }
-         }
-      }
+    if (songs != NULL) {
+       while (leadPtr != NULL) {
+          if ((songs->s.getArtist() == s.getArtist()) && (songs->s.getSize() == s.getSize()) && (songs->s.getTitle() == s.getTitle())){
+             tempPtr = songs;
+             songs = songs->next;
+             delete tempPtr;
+             leadPtr = songs;
+             followPtr = songs;
+             return SUCCESS;
+          }
+          else if ((leadPtr->s.getArtist() == s.getArtist()) && (leadPtr->s.getSize() == s.getSize()) && (leadPtr->s.getTitle() == s.getTitle())){
+              tempPtr = leadPtr;
+              leadPtr = leadPtr->next;
+              delete tempPtr;
+              followPtr->next = leadPtr;
+              return SUCCESS;
+          }
+          else{
+              followPtr = leadPtr;
+              leadPtr = leadPtr->next;
+          }
+       }
     }
+    return NOT_FOUND;
+ }
 
 
     /* FUNCTION - void shuffle
@@ -116,8 +118,33 @@ int UtPod::addSong(Song const &s) {
        output parms -
     */
 
-    void UtPod::shuffle() {
+ void UtPod::shuffle() {
+    SongNode *traversePointer;
+    traversePointer = songs;
+    int numSongs = 0;
+    if(songs != NULL){
+       while (traversePointer != NULL){
+          numSongs++;
+          traversePointer = traversePointer->next;
+       }
     }
+    for (int i = 0; i < (2*numSongs); i++){
+       int ptrOneIndex = rand() % numSongs;
+       int ptrTwoIndex = rand() % numSongs;
+       SongNode *ptrOne = songs;
+       SongNode *ptrTwo = songs;
+       Song temp;
+       for (int j = 0; j < ptrOneIndex; j++){   //traversing pointer One
+          ptrOne = ptrOne->next;
+       }
+       for (int j = 0; j < ptrTwoIndex; j++){   //traversing pointer Two
+          ptrTwo = ptrTwo->next;
+       }
+       temp = ptrTwo->s;
+       ptrTwo->s = ptrOne->s;
+       ptrOne->s = temp;
+    }
+ }
 
 
     /* FUNCTION - void showSongList
@@ -129,16 +156,16 @@ int UtPod::addSong(Song const &s) {
        output parms -
     */
 
-    void UtPod::showSongList() {
-       SongNode *traversePointer;
-       traversePointer = songs;
-       if(songs != NULL){
-          while (traversePointer != NULL){
-             cout << traversePointer->s << endl;
-             traversePointer = traversePointer->next;
-          }
+ void UtPod::showSongList() {
+    SongNode *traversePointer;
+    traversePointer = songs;
+    if(songs != NULL){
+       while (traversePointer != NULL){
+          cout << traversePointer->s << endl;
+          traversePointer = traversePointer->next;
        }
     }
+ }
 
 
     /* FUNCTION - void sortSongList
@@ -150,8 +177,32 @@ int UtPod::addSong(Song const &s) {
        output parms -
     */
 
-    void UtPod::sortSongList() {
-    }
+ void UtPod::sortSongList() {
+   SongNode *smallestPtr = songs;   //Current smallest pointer through loop
+   SongNode *insertPtr= songs;      //Pointer we put smallest ptr into
+   SongNode *traversePtr = songs;
+   Song temp;
+
+   if (songs != NULL) {
+      while (insertPtr->next != NULL) {
+         traversePtr = insertPtr;
+         smallestPtr = insertPtr;
+         while (traversePtr != NULL) {
+            if (traversePtr->s < smallestPtr->s) {
+               smallestPtr = traversePtr;
+            }
+            traversePtr = traversePtr->next;
+         }
+         temp = smallestPtr->s;
+         smallestPtr->s = insertPtr->s;
+         insertPtr->s = temp;
+
+         insertPtr = insertPtr->next;
+      }
+   }
+
+
+ }
 
 
     /* FUNCTION - void clearMemory
@@ -161,35 +212,22 @@ int UtPod::addSong(Song const &s) {
 
        output parms -
     */
-    void UtPod::clearMemory() {
-       SongNode *tempPointer;
-       tempPointer = songs;
-       if (songs != NULL) {
-          while (songs->next != NULL) {
-             songs = tempPointer->next;
-             delete tempPointer;
-             tempPointer = songs;
-          }
-          delete songs;
-          songs = NULL;
+ void UtPod::clearMemory() {
+    SongNode *tempPointer;
+    tempPointer = songs;
+    if (songs != NULL) {
+       while (songs->next != NULL) {
+          songs = tempPointer->next;
+          delete tempPointer;
+          tempPointer = songs;
        }
-
+       delete songs;
+       songs = NULL;
     }
 
+ }
 
-    /* FUNCTION - int getTotalMemory
-     *  returns the total amount of memory in the UtPod
-        o will do nothing if there are less than two songs in the current list
-
-       input parms -
-
-       output parms -
-    */
-
-
-
-
-    /* FUNCTION - int getRemainingMemory
+     /* FUNCTION - int getRemainingMemory
      *  returns the amount of memory available for adding new songs
 
        input parms -
@@ -197,21 +235,20 @@ int UtPod::addSong(Song const &s) {
        output parms -
     */
 
-    int UtPod::getRemainingMemory() {
-       SongNode *traversePointer;
-       traversePointer = songs;
-       int usedMemory = 0;
+ int UtPod::getRemainingMemory() {
+    SongNode *traversePointer;
+    traversePointer = songs;
+    int usedMemory = 0;
+       while (traversePointer != NULL){
+          usedMemory += traversePointer->s.getSize();
+          traversePointer = traversePointer->next;
+       }
 
-          while (traversePointer != NULL){
-             usedMemory += traversePointer->s.getSize();
-             traversePointer = traversePointer->next;
-          }
+    return (getTotalMemory()-usedMemory);
 
-       return (getTotalMemory()-usedMemory);
-
-    }
+ }
 
 
-    UtPod::~UtPod(){
-
-   }
+ UtPod::~UtPod(){
+   clearMemory();
+}
