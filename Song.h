@@ -15,7 +15,6 @@ private:
 
 public:
     Song();
-    //Song(string name);
     Song(string artist, string title, int size);
 
     string getArtist() const
@@ -39,13 +38,8 @@ public:
     bool operator <(Song const &rhs);
     bool operator >(Song const &rhs);
     bool operator ==(Song const &rhs);
-
-    //~Song();
-
 };
 
-
 ostream& operator << (ostream& out, const Song &g);
-
 
 #endif

@@ -2,20 +2,7 @@
 
 using namespace std;
 
-/*Golfer::Golfer()
-{
-   name = "";
-   eMail = "";
-   handicap = MAX_HANDICAP;
-}
-
-Golfer::Golfer(string name)
-{
-   this->name = name;
-   eMail = "";
-   handicap = MAX_HANDICAP;
-}*/
-
+//default constructor
 Song::Song()
 {
    artist = "";
@@ -23,6 +10,7 @@ Song::Song()
    size = 0;
 }
 
+//constructor where user passes in a valid artist, title, and size
 Song::Song(string _artist, string _title, int _size)
 {
    artist = _artist;
@@ -30,6 +18,7 @@ Song::Song(string _artist, string _title, int _size)
    size = _size;
 }
 
+//overload for < symbol
 bool Song::operator <(Song const &rhs)
 {
    if(artist < rhs.artist){
@@ -46,6 +35,7 @@ bool Song::operator <(Song const &rhs)
    }
 }
 
+//overload for > symbol
 bool Song::operator >(Song const &rhs)
 {
    if(artist > rhs.artist){
@@ -62,6 +52,7 @@ bool Song::operator >(Song const &rhs)
    }
 }
 
+//overload for == symbol
 bool Song::operator ==(Song const &rhs)
 {
    return (artist == rhs.artist &&
@@ -69,16 +60,8 @@ bool Song::operator ==(Song const &rhs)
            size == rhs.size);
 }
 
-/*Song::~Song()
-{
-   cout << "debug - in destructor for "<< artist <<endl;
-}*/
-
 ostream& operator << (ostream& out, const Song &g)
 {
    out << g.getTitle() << " - " << g.getArtist() << " - " << g.getSize() << " MB";
    return out;
 }
-  
-
-      

@@ -18,166 +18,189 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
+   cout << endl;
+   cout << "--- UTPOD SIZE TESTING ---" << endl;
+   //TEST: UTPOD SIZE > 512
    UtPod outOfRange(1000);
+   cout << "Memory of size > 512 test: " << outOfRange.getTotalMemory() << endl;
+   //TEST: UTPOD SIZE IN RANGE
    UtPod inRange(365);
+   cout << "Memory of size in range test: " << inRange.getTotalMemory() << endl;
+   //TEST: UTPOD SIZE 0
    UtPod zero(0);
+   cout << "Memory of size 0 test: " << zero.getTotalMemory() << endl;
+   //TEST: UTPOD SIZE < 0
    UtPod Below(-2);
-   cout << outOfRange.getTotalMemory() << " " << inRange.getTotalMemory() << " " << zero.getTotalMemory() << " " << Below.getTotalMemory() << endl;
+   cout << "Memory of size < 0 test: " << Below.getTotalMemory() << endl;
+   //TEST USING THESE 2 UTPODS
+   UtPod test512;
+   UtPod test256(256);
 
-   UtPod t;
-   //cout << "Enter an artist, title, and song size" << endl;
+   cout << endl;
+   cout << "--- SONG SIZE TOO BIG TESTING ---" << endl;
+   //TEST: SONG ONLY ADDED IF THERE IS ENOUGH SPACE
+   Song s0 ("small", "llams", 255);
+   Song s1("medium", "muidem", 10);
+   Song s2 ("big", "gib", 513);
+   int result = test256.addSong(s0);
+   cout << "Song added if enough space (0 success): " << result << endl;
+   result = test256.addSong(s1);
+   cout << "Song added if enough space (-1 no memory): " << result << endl;
+   test256.showSongList();
+   result = test512.addSong(s2);
+   cout << "Song added if enough space (-1 no memory): " << result << endl;
+   result = test512.addSong(s1);
+   cout << "Song added if enough space (0 success): " << result << endl;
+   test512.showSongList();
+   test512.clearMemory(); //TEST FOR CLEAR MEMORY
+   test256.clearMemory();
 
-   Song s0 ("big", "big", 513);
-   t.addSong(s0);
+   cout << endl;
+   cout << "--- REMOVING SONGS TESTING ---" << endl;
+   Song s3("One", "Six", 10);
+   Song s4("Two", "Seven", 7);
+   Song s5("Three", "Eight", 7);
+   Song s6("Four", "Nine", 7);
+   Song s7("Three", "Eight", 7);
+   Song s8("Three", "Eight", 7);
+   Song s9("Five", "Ten", 28);
+   test256.addSong(s3);
+   test256.addSong(s4);
+   test256.addSong(s5);
+   test256.addSong(s6);
+   cout << "Song List: " << endl;
+   test256.showSongList();
+   //TEST: REMOVING SONGS THAT DON'T EXIST
+   Song s10("Hundred", "Eight", 7);
+   result = test256.removeSong(s10);
+   cout << "Remove Song (-2 not found): " << result << endl;
+   Song s11("Three", "Four", 7);
+   result = test256.removeSong(s11);
+   cout << "Remove Song (-2 not found): " << result << endl;
+   Song s12("Three", "Eight", 9);
+   result = test256.removeSong(s12);
+   cout << "Remove Song (-2 not found): " << result << endl;
+   //TEST: REMOVING FIRST AND LAST SONG
+   cout << "Removing first and last song... " << endl;
+   test256.removeSong(s3);
+   test256.removeSong(s6);
+   test256.showSongList();
+   //TEST: REMOVING A SONG WITH MULTIPLE COPIES OF THE SAME SONG
+   test256.addSong(s3);
+   test256.addSong(s4);
+   test256.addSong(s5);
+   test256.addSong(s6);
+   test256.addSong(s7);
+   test256.addSong(s8);
+   test256.addSong(s9);
+   cout << "Song List: " << endl;
+   test256.showSongList();
+   Song s13("Three", "Eight", 7);
+   test256.removeSong(s13);
+   cout << "Removed one song out of multiple: " << endl;
+   test256.showSongList();
+   test256.removeSong(s7);
+   test256.removeSong(s7);
+   test256.removeSong(s7);
+   test256.removeSong(s3);
+   test256.removeSong(s4);
+   test256.removeSong(s6);
+   test256.removeSong(s9);
+   cout << "One Song left: " << endl;
+   test256.showSongList();    //SHOW SONG LIST WORKS WITH ONE SONG
+   //TEST: REMOVING SONG IN A LIST OF 0 AND 1 SONG
+   test256.removeSong(s4);
+   test256.showSongList();    //SHOW SONG LIST WORKS WITH 0 SONGS
+   result = test256.removeSong(s4);
+   cout << "Removing song from 0 song list (-2 not found): " << result << endl;
+   test256.showSongList();
 
-   Song s1("Beatles", "Hey Jude1", 4);
-   t.addSong(s1);
-   Song s2("Beatles", "Hey Jude2", 5);
-   t.addSong(s2);
-   Song s3("ABBA", "test", 20);
-   t.addSong(s3);
-   Song s4("jkl", "fwohf", 3);
-   t.addSong(s4);
-   Song s5("qwer", "xcvn", 17);
-   t.addSong(s5);
+   cout << "--- SHUFFLE TESTING ---" << endl;
+   test256.addSong(s3);
+   test256.addSong(s4);
+   test256.addSong(s5);
+   test256.addSong(s6);
+   test256.addSong(s9);
+   cout << "Shuffle #1: " << endl;
+   test256.shuffle();
+   test256.showSongList();
+   cout << "Shuffle #2: " << endl;
+   test256.shuffle();
+   test256.showSongList();
+   cout << "Shuffle #3: " << endl;
+   test256.shuffle();
+   test256.showSongList();
+   cout << "Shuffle #4: " << endl;
+   test256.shuffle();
+   test256.showSongList();
+   cout << "Shuffle #5: " << endl;
+   test256.shuffle();
+   test256.showSongList();
+   //TEST: SHUFFLE WITH 0, 1, 2 SONGS
+   test256.removeSong(s9);
+   test256.removeSong(s6);
+   test256.removeSong(s5);
+   cout << "Shuffle these two songs: " << endl;
+   test256.showSongList();
+   cout << "Shuffle 2 songs: " << endl;
+   test256.shuffle();
+   test256.showSongList();
+   test256.removeSong(s4);
+   cout << "Shuffle 1 song: " << endl;
+   test256.shuffle();
+   test256.showSongList();
+   test256.removeSong(s3);
+   cout << "Shuffle 0 songs: " << endl;
+   test256.shuffle();
+   test256.showSongList();
 
-   Song s6("Beatles", "Hey Jude2", 6);
-   Song s7("Beatles", "Hey Jude2", 7);
-   Song s8("Beatles", "Hey Jude2", 7);
-   Song s9("Beatles", "Hey Jude3", 7);
-   Song s10("Beatles", "Hey Jude3", 7);
-   Song s11("Beatles", "Hey Jude3", 5);
-   Song s12("Beatles", "Hey Jude3", 8);
-   Song s13("BTS", "Fake Love", 50);
-   Song s14("Andy Mineo", "The Saints", 10);
-   Song s15("andy mineo", "the saints", 2);
-   Song s16("Lady Gaga", "Bad Romance", 3);
-   Song s17("Kendrick Lamar", "i", 2);
-   Song s18("Seventeen", "Mansae", 3);
+   cout << "--- SORTING TESTING ---" << endl;
+   test256.clearMemory();
+   //TEST: SORT 1 SONG
+   cout << "Sorting 1 song: " << endl;
+   test256.addSong(s3);
+   test256.sortSongList();
+   test256.showSongList();
+   //TEST: SORT 2 SONGS
+   cout << "Sorting 2 songs: " << endl;
+   test256.addSong(s6);
+   test256.sortSongList();
+   test256.showSongList();
+   //TEST: SORT WITH MUTIPLE SONGS BEING THE EXACT SAME
+   cout << "Sorting with multiple same songs: " << endl;
+   test256.addSong(s4);
+   test256.addSong(s5);
+   test256.addSong(s7);
+   test256.addSong(s8);
+   test256.addSong(s9);
+   test256.sortSongList();
+   test256.showSongList();
+   //TEST: SORT WITH SIZE DIFFERED ONLY
+   cout << "Sort with size different only: " << endl;
+   Song s14("Three", "Eight", 9);
+   test256.addSong(s14);
+   test256.sortSongList();
+   test256.showSongList();
+   //TEST: SORT WITH ARTIST SAME ONLY
+   cout << "Sort with artist same only: " << endl;
+   Song s15("Three", "Twenty", 9);
+   test256.addSong(s15);
+   test256.sortSongList();
+   test256.showSongList();
+   //TEST: SORT WITH ARTIST DIFFERENT ONLY
+   cout << "Sort with artist different only: " << endl;
+   Song s16("Two", "Eight", 9);
+   test256.addSong(s16);
+   test256.sortSongList();
+   test256.showSongList();
 
-   t.addSong(s6);
-   t.addSong(s7);
-   t.addSong(s8);
-   t.addSong(s9);
-   t.addSong(s10);
-   t.addSong(s11);
-   t.addSong(s12);
-   t.addSong(s13);
-   t.addSong(s14);
-   t.addSong(s15);
-   t.addSong(s16);
-   t.addSong(s17);
-   t.addSong(s18);
-   t.showSongList();
-
-   cout << "\nShuffle" << endl;
-   t.shuffle();
-   t.showSongList();
-
-   cout << "\nSort" << endl;
-   t.sortSongList();
-   t.showSongList();
-
-   cout <<"\nRemove and Add" << endl;
-   t.removeSong(s4);
-   t.addSong(s9);
-   t.addSong(s9);
-   t.removeSong(s9);
-   t.removeSong(s1);
-   t.removeSong(s10);
-   t.showSongList();
-   //t.removeSong(s1);
-
-   t.clearMemory();
-   t.addSong(s17);
-   t.addSong(s17);
-   t.addSong(s17);
-   t.removeSong(s8);
-   t.shuffle();
-   t.sortSongList();
-   cout <<"\nCleared memory and added song" << endl;
-   t.showSongList();
-   cout <<"\nRemove one song" << endl;
-   t.removeSong(s17);
-   t.showSongList();
-
-   //t.clearMemory();
-   //t.showSongList();
-   //cout<< t.getRemainingMemory() <<endl;
-
-   //t.addSong(s3);
-
-   //t.showSongList();
-   //cout<< t.getRemainingMemory() <<endl;
-
-
-
-   //Song s2("Beatles", "Hey Jude2", 5);
-   //cout << s1;
-
-   /*if(s1 > s2){
-      cout << "s1 after s2" << endl;
-   }
-   else if(s1 < s2){
-      cout << "s1 before s2" << endl;
-   }
-   else if (s1 == s2){
-      cout << "equal" << endl;
-   }*/
-
-   /*UtPod t;
-    
-    Song s1("Beatles", "Hey Jude1", 4);
-    int result = t.addSong(s1);
-    cout << "result = " << result << endl;
-    
-    t.showSongList();
-          
-    Song s2("Beatles", "Hey Jude2", 5);
-    result = t.addSong(s2);
-    cout << "result = " << result << endl;
-    
-    t.showSongList();
-       
-    Song s3("Beatles", "Hey Jude3", 6);
-    result = t.addSong(s3);
-    cout << "result = " << result << endl;
-       
-    Song s4("Beatles", "Hey Jude4", 7);
-    result = t.addSong(s4);
-    cout << "result = " << result << endl;
-       
-    Song s5("Beatles", "Hey Jude5", 241);
-    result = t.addSong(s5);
-    cout << "add result = " << result << endl;
-    
-    t.showSongList();
-    
-    result = t.removeSong(s2);
-    cout << "delete result = " << result << endl;
-  
-    result = t.removeSong(s3);
-    cout << "delete result = " << result << endl;
-
-    t.showSongList();
-    
-    result = t.removeSong(s1);
-    cout << "delete result = " << result << endl;
- 
-    result = t.removeSong(s5);
-    cout << "delete result = " << result << endl;
-    
-    result = t.removeSong(s4);
-    cout << "delete result = " << result << endl;
-    
-    
-    t.showSongList();
-    
-    result = t.addSong(s5);
-    cout << "add result = " << result << endl;
-    
-    t.showSongList();
-    cout << "memory = " << t.getRemainingMemory() << endl;*/
-    
-
+   cout << endl;
+   cout << "--- REMAINING MEMORY TESTING ---" << endl;
+   cout << "Remaining Memory: " << test256.getRemainingMemory() << endl;
+   Song s17("Two", "Eight", 156);
+   test256.addSong(s17);
+   cout << "Remaining Memory when full: " << test256.getRemainingMemory() << endl;
+   test256.clearMemory();
+   cout << "Remaining Memory when empty: " << test256.getRemainingMemory() << endl;
+   test256.showSongList();
 }
