@@ -81,7 +81,7 @@ int main(int argc, char *argv[])
    result = test256.removeSong(s12);
    cout << "Remove Song (-2 not found): " << result << endl;
    //TEST: REMOVING FIRST AND LAST SONG
-   cout << "Removing first and last song... " << endl;
+   cout << endl << "Removing first and last song... " << endl;
    test256.removeSong(s3);
    test256.removeSong(s6);
    test256.showSongList();
@@ -97,7 +97,7 @@ int main(int argc, char *argv[])
    test256.showSongList();
    Song s13("Three", "Eight", 7);
    test256.removeSong(s13);
-   cout << "Removed one song out of multiple: " << endl;
+   cout << endl << "Removed one song out of multiple: " << endl;
    test256.showSongList();
    test256.removeSong(s7);
    test256.removeSong(s7);
@@ -106,16 +106,16 @@ int main(int argc, char *argv[])
    test256.removeSong(s4);
    test256.removeSong(s6);
    test256.removeSong(s9);
-   cout << "One Song left: " << endl;
+   cout << endl << "One Song left: " << endl;
    test256.showSongList();    //SHOW SONG LIST WORKS WITH ONE SONG
    //TEST: REMOVING SONG IN A LIST OF 0 AND 1 SONG
    test256.removeSong(s4);
    test256.showSongList();    //SHOW SONG LIST WORKS WITH 0 SONGS
    result = test256.removeSong(s4);
-   cout << "Removing song from 0 song list (-2 not found): " << result << endl;
+   cout << endl << "Removing song from 0 song list (-2 not found): " << result << endl;
    test256.showSongList();
 
-   cout << "--- SHUFFLE TESTING ---" << endl;
+   cout << endl << "--- SHUFFLE TESTING ---" << endl;
    test256.addSong(s3);
    test256.addSong(s4);
    test256.addSong(s5);
@@ -124,37 +124,37 @@ int main(int argc, char *argv[])
    cout << "Shuffle #1: " << endl;
    test256.shuffle();
    test256.showSongList();
-   cout << "Shuffle #2: " << endl;
+   cout << endl << "Shuffle #2: " << endl;
    test256.shuffle();
    test256.showSongList();
-   cout << "Shuffle #3: " << endl;
+   cout << endl << "Shuffle #3: " << endl;
    test256.shuffle();
    test256.showSongList();
-   cout << "Shuffle #4: " << endl;
+   cout << endl << "Shuffle #4: " << endl;
    test256.shuffle();
    test256.showSongList();
-   cout << "Shuffle #5: " << endl;
+   cout << endl << "Shuffle #5: " << endl;
    test256.shuffle();
    test256.showSongList();
    //TEST: SHUFFLE WITH 0, 1, 2 SONGS
    test256.removeSong(s9);
    test256.removeSong(s6);
    test256.removeSong(s5);
-   cout << "Shuffle these two songs: " << endl;
+   cout << endl << "Shuffle these two songs: " << endl;
    test256.showSongList();
-   cout << "Shuffle 2 songs: " << endl;
+   cout << endl << "Shuffle 2 songs: " << endl;
    test256.shuffle();
    test256.showSongList();
    test256.removeSong(s4);
-   cout << "Shuffle 1 song: " << endl;
+   cout << endl << "Shuffle 1 song: " << endl;
    test256.shuffle();
    test256.showSongList();
    test256.removeSong(s3);
-   cout << "Shuffle 0 songs: " << endl;
+   cout << endl << "Shuffle 0 songs: " << endl;
    test256.shuffle();
    test256.showSongList();
 
-   cout << "--- SORTING TESTING ---" << endl;
+   cout << endl << "--- SORTING TESTING ---" << endl;
    test256.clearMemory();
    //TEST: SORT 1 SONG
    cout << "Sorting 1 song: " << endl;
@@ -162,12 +162,12 @@ int main(int argc, char *argv[])
    test256.sortSongList();
    test256.showSongList();
    //TEST: SORT 2 SONGS
-   cout << "Sorting 2 songs: " << endl;
+   cout << endl << "Sorting 2 songs: " << endl;
    test256.addSong(s6);
    test256.sortSongList();
    test256.showSongList();
    //TEST: SORT WITH MUTIPLE SONGS BEING THE EXACT SAME
-   cout << "Sorting with multiple same songs: " << endl;
+   cout << endl << "Sorting with multiple same songs: " << endl;
    test256.addSong(s4);
    test256.addSong(s5);
    test256.addSong(s7);
@@ -176,19 +176,19 @@ int main(int argc, char *argv[])
    test256.sortSongList();
    test256.showSongList();
    //TEST: SORT WITH SIZE DIFFERED ONLY
-   cout << "Sort with size different only: " << endl;
+   cout << endl << "Sort with size different only: " << endl;
    Song s14("Three", "Eight", 9);
    test256.addSong(s14);
    test256.sortSongList();
    test256.showSongList();
    //TEST: SORT WITH ARTIST SAME ONLY
-   cout << "Sort with artist same only: " << endl;
+   cout << endl << "Sort with artist same only: " << endl;
    Song s15("Three", "Twenty", 9);
    test256.addSong(s15);
    test256.sortSongList();
    test256.showSongList();
    //TEST: SORT WITH ARTIST DIFFERENT ONLY
-   cout << "Sort with artist different only: " << endl;
+   cout << endl << "Sort with artist different only: " << endl;
    Song s16("Two", "Eight", 9);
    test256.addSong(s16);
    test256.sortSongList();
